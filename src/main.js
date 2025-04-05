@@ -5,7 +5,7 @@ configDotenv()
 
 const application = express()
 
-application.get('/', userController.getUser)
+application.get('/user', userController.getUser)
 
 
 application.listen(process.env.PORT, () => {
