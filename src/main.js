@@ -1,13 +1,17 @@
 import express from 'express'
-import userController from './controller/userController.js'
 import { configDotenv } from 'dotenv'
+import userController from './controller/userController.js'
+import cors from 'cors'
+
 configDotenv()
+const app = express()
 
-const application = express()
+app.use(express.json())
+app.use(cors())
 
-application.get('/user', userController.getUser)
+app.get('/user', userController.getUser)
+app.post('/user', userController.createUser)
 
-
-application.listen(process.env.PORT, () => {
-    console.log(`application listen port:${process.env.PORT}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Application listening on port: ${process.env.PORT}`)
 })

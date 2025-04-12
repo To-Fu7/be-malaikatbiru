@@ -1,16 +1,14 @@
-// File Service
-import userRepository from "../repository/userRepository.js"
+import userRepository from '../repository/userRepository.js'
 
+const getUser = async () => {
+  return await userRepository.getUser()
+}
 
-const getUser = () => {
-    const data = userRepository.getUser()
-
-    if(data.length < 1) {
-        return 'data gak ada'
-    }
-    return data
+const createUser = async (data) => {
+  return await userRepository.createUser(data)
 }
 
 export default {
-    getUser
+  getUser,
+  createUser
 }
