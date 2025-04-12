@@ -9,6 +9,10 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+app.post('/auth/login')
+app.post('/auth/register')
+app.get('/user/profile')
+
 app.get('/user', userController.getUser)
 app.post('/user', userController.createUser)
 
