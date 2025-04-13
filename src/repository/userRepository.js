@@ -1,11 +1,11 @@
 import pool from '../database/db.js'
 
-const getUser = async () => {
-  const result = await pool.query('SELECT * FROM users')
-  return result.rows
+export const findByUsername = async (username) => {
+  const res = await pool.query('SELECT * FROM users WHERE username = $1', [username])
+  return res.rows[0]
 }
 
-const createUser = async (user) => {
+export const create = async (user) => {
   const {
     name,
     position,
@@ -43,7 +43,7 @@ const createUser = async (user) => {
   return result.rows[0]
 }
 
-export default {
-  getUser,
-  createUser
+export const findAll = async () => {
+  const result = await pool.query('SELECT * FROM users')
+  return result.rows
 }

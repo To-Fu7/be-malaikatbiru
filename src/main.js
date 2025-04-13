@@ -1,7 +1,9 @@
 import express from 'express'
 import { configDotenv } from 'dotenv'
-import userController from './controller/userController.js'
 import cors from 'cors'
+import { loginUser, registerUser } from './controller/authController.js'
+import { getUser } from './controller/userController.js'
+import { verifyToken } from './middleware/authMiddleware.js'
 
 configDotenv()
 const app = express()
@@ -9,12 +11,12 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.post('/auth/login')
-app.post('/auth/register')
-app.get('/user/profile')
+// Auth Routes
+app.post('/auth/login', loginUser)
+app.post('/auth/register', registerUser)
 
-app.get('/user', userController.getUser)
-app.post('/user', userController.createUser)
+// User Routes (now protected)
+app.get('/user', verifyToken, getUser)
 
 app.listen(process.env.PORT, () => {
   console.log(`Application listening on port: ${process.env.PORT}`)

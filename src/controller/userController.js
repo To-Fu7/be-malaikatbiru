@@ -1,16 +1,10 @@
-import userService from '../service/userService.js'
+import { getAllUsers } from '../services/userService.js'
 
-const getUser = async (req, res) => {
-  const users = await userService.getUser()
-  res.send(users)
-}
-
-const createUser = async (req, res) => {
-  const newUser = await userService.createUser(req.body)
-  res.status(201).send(newUser)
-}
-
-export default {
-  getUser,
-  createUser
+export const getUser = async (req, res) => {
+  try {
+    const users = await getAllUsers()
+    res.json(users)
+  } catch (err) {
+    res.status(500).json({ message: 'Error retrieving users' })
+  }
 }
