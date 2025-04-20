@@ -1,11 +1,12 @@
 import { getAllUsers, getUserById } from '../services/userService.js'
 
-export const getUser = async ( req, res ) => {
-  try{
+export const getUser = async (req, res) => {
+  try {
     const users = await getAllUsers()
     res.json(users)
-  } catch(error) {
-    res.status(500).json({message : 'Error dalam mengambil data users'})
+  } catch (error) {
+    console.error('❌ ERROR getUser:', error) // Tambahkan ini
+    res.status(500).json({ message: 'Error dalam mengambil data users' })
   }
 }
 
