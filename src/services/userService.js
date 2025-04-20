@@ -1,29 +1,41 @@
-import * as userRepository from '../repository/userRepository.js'
+import * as userRepo from "../repository/userRepository.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
 export const login = async ({ username, password }) => {
-  const user = await userRepository.findByUsername(username)
-  if (!user) throw { status: 404, message: 'User not found' }
-
+  const user = await userRepo.findRegisteredUser(username)
+  if(!user) throw {
+    status : 404,
+    message : 'user tidak di temukan'
+  }
+  
   const valid = await bcrypt.compare(password, user.pass)
-  if (!valid) throw { status: 401, message: 'Invalid credentials' }
+  if(!valid) throw {
+    status : 401,
+    message : 'password salah'
+  }
 
+  // CREATE JWT TOKEN
   const token = jwt.sign(
-    { id: user.id, username: user.username },
+    { id: user.id, username: user.username},
     process.env.JWT_SECRET,
-    { expiresIn: '1d' }
+    {expiresIn:'1d'}
   )
 
   return { token }
+  
 }
 
 export const register = async (userData) => {
   const hashed = await bcrypt.hash(userData.password, 10)
   userData.pass = hashed
-  await userRepository.create(userData)
+  await userRepo.createUser(userData)
 }
 
 export const getAllUsers = async () => {
-  return await userRepository.findAll()
+  return await userRepo.findAll()
+}
+
+export const getUserById = async (id) => {
+  return await userRepo.findUserById(id)
 }
