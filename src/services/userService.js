@@ -39,3 +39,15 @@ export const getAllUsers = async () => {
 export const getUserById = async (id) => {
   return await userRepo.findUserById(id)
 }
+
+export const getAllMonsters = async () => {
+  return await userRepo.getAllMonsters()
+}
+
+export const addNewMonster = async (monster) => {
+  return await userRepo.createNewMonster(monster)
+}
+
+export const getAllItems = async () => {
+  return await userRepo.getAllItems()
+}

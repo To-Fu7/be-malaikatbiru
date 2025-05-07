@@ -5,6 +5,7 @@ export const findRegisteredUser = async (username) => {
   return res.rows[0]
 }
 
+
 export const findUserById = async (id) => {
   const res = await pool.query('SELECT * FROM users WHERE id = $1', [id])
   return res.rows[0]
@@ -24,11 +25,12 @@ export const createUser = async (user) => {
     status,
     ign
   } = user
-
+  
   const result = await pool.query(
     `INSERT INTO users
     (name, position, buff_land, profile_pic, username, pass, uac, cash, buff_code, status, ign)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+    ON CONFLICT (id) DO NOTHING
     RETURNING *`,
     [
       name,
@@ -47,7 +49,45 @@ export const createUser = async (user) => {
   return result.rows[0]
 }
 
+export const createNewMonster = async (monster)=> {
+  const {
+    monster_name,
+    monster_type,
+    monster_element,
+    monster_attributes,
+    monster_loc,
+    monster_drops,
+    monster_pic, //will be changed to monster_img
+  } = monster
+
+  const result = await pool.query(
+    `INSERT INTO monsters
+    (monster_name, monster_type, monster_element, monster_attributes, monster_loc, monster_drops, monster_pic)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    RETURNING *`,
+    [
+      monster_name,
+      monster_type,
+      monster_element,
+      JSON.stringify(monster_attributes),
+      monster_loc,
+      JSON.stringify(monster_drops),
+      monster_pic
+    ]
+  )
+  return result.rows[0]
+}
+
 export const findAll = async ()=> {
   const result = await pool.query('SELECT * FROM users')
   return result.rows
+}
+export const getAllMonsters = async () => {
+  const res = await pool.query('SELECT * FROM monsters')
+  return res.rows
+}
+
+export const getAllItems = async () => {
+  const res = await pool.query('SELECT * FROM items')
+  return res.rows
 }
