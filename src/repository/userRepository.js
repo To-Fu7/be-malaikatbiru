@@ -57,7 +57,7 @@ export const createNewMonster = async (monster)=> {
     monster_attributes,
     monster_loc,
     monster_drops,
-    monster_pic, //will be changed to monster_img
+    monster_pic, // will be changed to monster_img
   } = monster
 
   const result = await pool.query(

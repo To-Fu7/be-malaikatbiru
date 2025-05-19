@@ -12,17 +12,14 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.json())
 app.use(cors())
 
-// authentication
-// -login user
 app.post('/auth/login', userLogin)
-// -register user 
 app.post('/auth/register', userRegister)
-app.post('/monsters/add', verifyToken, pushNewMonster)
 
-// user routes
+app.post('/monsters/add', verifyToken, pushNewMonster)
+app.get('/monsters' , getMonsterLists) 
+
 app.get('/user', getUser)
 app.get('/user/profiles', verifyToken, getProfiles)
-app.get('/monsters' , getMonsterLists) 
 app.get('/items/list', getItemlists)
 
 

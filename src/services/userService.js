@@ -24,30 +24,30 @@ export const login = async ({ username, password }) => {
 
   return { token }
   
-}
+};
 
 export const register = async (userData) => {
   const hashed = await bcrypt.hash(userData.password, 10)
   userData.pass = hashed
   await userRepo.createUser(userData)
-}
+};
 
 export const getAllUsers = async () => {
   return await userRepo.findAll()
-}
+};
 
 export const getUserById = async (id) => {
   return await userRepo.findUserById(id)
-}
-
-export const getAllMonsters = async () => {
-  return await userRepo.getAllMonsters()
-}
+};
 
 export const addNewMonster = async (monster) => {
   return await userRepo.createNewMonster(monster)
-}
+};
+
+export const getAllMonsters = async () => {
+  return await userRepo.getAllMonsters()
+};
 
 export const getAllItems = async () => {
   return await userRepo.getAllItems()
-}
+};
