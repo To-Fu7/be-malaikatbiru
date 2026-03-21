@@ -107,3 +107,32 @@ export const deleteUserById = async (id) => {
 export const deleteMonsterById = async (id) => {
   await pool.query('DELETE FROM monsters WHERE id = $1', [id])
 }
+
+export const updateMonsterById = async (id, { monster_name, monster_type, monster_element, monster_loc, monster_attributes, monster_drops, monster_pic }) => {
+  const result = await pool.query(
+    `UPDATE monsters SET
+      monster_name      = COALESCE($1, monster_name),
+      monster_type      = COALESCE($2, monster_type),
+      monster_element   = COALESCE($3, monster_element),
+      monster_loc       = COALESCE($4, monster_loc),
+      monster_attributes= COALESCE($5, monster_attributes),
+      monster_drops     = COALESCE($6, monster_drops),
+      monster_pic       = COALESCE($7, monster_pic)
+    WHERE id = $8 RETURNING *`,
+    [
+      monster_name    ?? null,
+      monster_type    ?? null,
+      monster_element ?? null,
+      monster_loc     ?? null,
+      monster_attributes ? JSON.stringify(monster_attributes) : null,
+      monster_drops      ? JSON.stringify(monster_drops)      : null,
+      monster_pic     ?? null,
+      id
+    ]
+  )
+  return result.rows[0]
+}
+
+export const deleteItemById = async (id) => {
+  await pool.query('DELETE FROM items WHERE id = $1', [id])
+}

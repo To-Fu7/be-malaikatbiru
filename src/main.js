@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import { configDotenv } from 'dotenv'
-import { getUser, getProfiles, getMonsterLists, pushNewMonster, getItemlists, adminGetUsers, adminPatchUser, adminRemoveUser, adminRemoveMonster } from './controller/userController.js';
+import { getUser, getProfiles, getMonsterLists, pushNewMonster, getItemlists, adminGetUsers, adminPatchUser, adminRemoveUser, adminRemoveMonster, adminPatchMonster, adminRemoveItem } from './controller/userController.js';
 import { userLogin, userRegister } from './controller/authController.js'
 import { verifyToken, verifyAdmin } from './middleware/authMiddleware.js'
 
@@ -26,6 +26,8 @@ app.get('/admin/users', verifyAdmin, adminGetUsers)
 app.patch('/admin/users/:id', verifyAdmin, adminPatchUser)
 app.delete('/admin/users/:id', verifyAdmin, adminRemoveUser)
 app.delete('/admin/monsters/:id', verifyAdmin, adminRemoveMonster)
+app.patch('/admin/monsters/:id',  verifyAdmin, adminPatchMonster)
+app.delete('/admin/items/:id',    verifyAdmin, adminRemoveItem)
 
 app.listen(process.env.PORT, () => {
   console.log(`Application listening on port: ${process.env.PORT}`)

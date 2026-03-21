@@ -68,3 +68,11 @@ export const adminDeleteUser = async (id) => {
 export const adminDeleteMonster = async (id) => {
   await userRepo.deleteMonsterById(id)
 };
+
+export const adminUpdateMonster = async (id, fields) => {
+  return await userRepo.updateMonsterById(id, fields)
+};
+
+export const adminDeleteItem = async (id) => {
+  await userRepo.deleteItemById(id)
+};
