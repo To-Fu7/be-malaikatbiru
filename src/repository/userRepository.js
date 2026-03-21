@@ -91,3 +91,19 @@ export const getAllItems = async () => {
   const res = await pool.query('SELECT * FROM items')
   return res.rows
 }
+
+export const updateUserById = async (id, { name, position, status }) => {
+  const result = await pool.query(
+    `UPDATE users SET name = COALESCE($1, name), position = COALESCE($2, position), status = COALESCE($3, status) WHERE id = $4 RETURNING *`,
+    [name ?? null, position ?? null, status ?? null, id]
+  )
+  return result.rows[0]
+}
+
+export const deleteUserById = async (id) => {
+  await pool.query('DELETE FROM users WHERE id = $1', [id])
+}
+
+export const deleteMonsterById = async (id) => {
+  await pool.query('DELETE FROM monsters WHERE id = $1', [id])
+}

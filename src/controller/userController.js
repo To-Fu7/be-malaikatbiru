@@ -1,4 +1,4 @@
-import { getAllUsers, getUserById, getAllMonsters, addNewMonster, getAllItems } from '../services/userService.js'
+import { getAllUsers, getUserById, getAllMonsters, addNewMonster, getAllItems, adminGetAllUsers, adminUpdateUser, adminDeleteUser, adminDeleteMonster } from '../services/userService.js'
 
 export const getUser = async (req, res) => {
   try {q
@@ -69,5 +69,46 @@ export const getItemlists = async (req, res) => {
   } catch (error) {
     console.error('ERROR When Getting Item lists :', error)
     res.status(500).json({ message: 'Error dalam mengambil data items' })
+  }
+}
+
+export const adminGetUsers = async (req, res) => {
+  try {
+    const users = await adminGetAllUsers()
+    res.json(users)
+  } catch (error) {
+    console.error('ERROR Admin Get Users :', error)
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
+export const adminPatchUser = async (req, res) => {
+  try {
+    const updated = await adminUpdateUser(req.params.id, req.body)
+    if (!updated) return res.status(404).json({ message: 'User not found' })
+    res.json(updated)
+  } catch (error) {
+    console.error('ERROR Admin Update User :', error)
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
+export const adminRemoveUser = async (req, res) => {
+  try {
+    await adminDeleteUser(req.params.id)
+    res.json({ message: 'User deleted' })
+  } catch (error) {
+    console.error('ERROR Admin Delete User :', error)
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
+export const adminRemoveMonster = async (req, res) => {
+  try {
+    await adminDeleteMonster(req.params.id)
+    res.json({ message: 'Monster deleted' })
+  } catch (error) {
+    console.error('ERROR Admin Delete Monster :', error)
+    res.status(500).json({ message: 'Server error' })
   }
 }

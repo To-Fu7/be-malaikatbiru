@@ -51,3 +51,20 @@ export const getAllMonsters = async () => {
 export const getAllItems = async () => {
   return await userRepo.getAllItems()
 };
+
+export const adminGetAllUsers = async () => {
+  const users = await userRepo.findAll()
+  return users.map(({ pass, ...rest }) => rest)
+};
+
+export const adminUpdateUser = async (id, fields) => {
+  return await userRepo.updateUserById(id, fields)
+};
+
+export const adminDeleteUser = async (id) => {
+  await userRepo.deleteUserById(id)
+};
+
+export const adminDeleteMonster = async (id) => {
+  await userRepo.deleteMonsterById(id)
+};
